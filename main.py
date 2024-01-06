@@ -1,6 +1,7 @@
 from langchain_experimental.agents.agent_toolkits import create_csv_agent
 from langchain.llms import OpenAI
 import streamlit as st
+import os
 
 def main():
     st.set_page_config(page_title="Leveraging GPT for Question Answering on CSV Documents")
@@ -13,9 +14,11 @@ def main():
         st.warning("Please enter your OpenAI API key.")
         return
 
-    # Create the OpenAI instance with the user-input API key
+    # Set the OpenAI API key as an environment variable
+    os.environ["OPENAI_API_KEY"] = user_input_api_key
+
     try:
-        openai_instance = OpenAI(api_token=user_input_api_key)
+        openai_instance = OpenAI()
     except Exception as e:
         st.error(f"Error creating OpenAI instance: {e}")
         return
